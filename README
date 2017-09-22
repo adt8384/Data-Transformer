@@ -1,0 +1,62 @@
+DEPENDENCIES:
+1) python binary and its dependencies. For CentOS, use yum installer to install python.
+For Ubuntu, use Synaptic or apt-get to install python.
+In Mac, python binary was available by default.
+This program was run with python version 2.7. Python versions 2.7 and above should be ok.
+
+2) The program depends on the following packages which could be installed through pip.
+Most of the packages should be part of base python package. Packages which are not available
+under base package must be installed through pip.
+
+Packages needed: os, string, csv, sys, datetime, time and json.
+Sample pip install command:
+# pip install json
+
+3) The program needs to have write access to where the transformed CSV file is to be written.
+The program writes the output file as CSV file and it could be viewed by Excel.
+
+FILES INCLUDED:
+1) README: this readme file.
+2) transformers.py is the main program that converts the input CSV file using the input JSON file
+to the user specified output file.
+3) Nasa.csv : Sample input CSV file whose fields are to be transformed.
+4) transform-spec.json: Sample transformational JSON spec.
+5) output.csv: Sample output file for reference.
+
+Sample command execution:
+# python transformers.py Nasa.csv transform-spec.json output.csv
+
+Above is the sample command to run the program.
+The program takes the input CSV file as its first input,
+input JSON spec file as its next input 
+and the output file where the fields gets transformed as its last input.
+
+The program handles most of the error handling for cases:
+1) If input CSV file is not present or readable.
+2) If input JSON file is not present or readable.
+3) If output file is not writable or path not accessible.
+4) It throws error when the transformation json doesnt contain neither
+slugify, f-to-c nor hst-to-unix.
+5) It throws error if the column specified in the JSON file doesnt match
+the column header in the input CSV file.
+
+ASSUMPTIONS:
+1) As specified in the problem statement, the program assumes time stamp to be in
+Hawiian Standard time (HST)
+2) Also the program requires RecordedDate field to do the hst-to-unix transform.
+The program wont do hst-to-unix transformation if the RecordedDate field is not present.
+
+DESIGN:
+1) The program is written as a standalone python binary.
+2) The function parse_input_csv_file transforms the CSV file into headers and data.
+3) The function parse_transform_json_file transforms the JSON file to operation type value dictionary.
+This function ensures the last specified operation on the spec will be used.
+4) check_trans_val_in_csv: is a utility function that checks transformation json column in the input CSV.
+5) slugify_transform: this function performs the slugify transformation. It takes string as input and
+returns slugified output string.
+6) f_to_c_transform: This function performs the f_to_c transformation. It takes the given value and converts to
+celsius.
+7) hst_to_unix_transform: This function does the hst_to_unix transform. It takes the date field as input and converts
+to unix timestamp.
+8) transform_csv_fields: It takes the transformation operation, csv data and output file. It does the actual transformation
+and writes it to the output CSV file.

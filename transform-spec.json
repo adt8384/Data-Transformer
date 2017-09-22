@@ -1,0 +1,18 @@
+{
+  "spec_version": 1.0,
+  "transforms": [
+    {
+      "operation": "slugify",
+      "column": "RecordLocation"
+    },
+    {
+      "operation": "f-to-c",
+      "column": "Temperature"
+    },
+    {
+      "operation": "hst-to-unix",
+      "column": "TimeSunRise"
+    }
+  ]
+}
+
